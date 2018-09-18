@@ -1,0 +1,37 @@
+
+module ClkDiv
+#(
+	// Parameter Declarations
+	parameter NBITS = 4,
+	parameter VALUE =7
+)
+
+(
+	// Input Ports
+	input clk,
+	input reset,
+	input enable,
+	
+	// Output Ports
+	output[NBITS-1:0] Counter,
+	output flag
+
+);
+
+
+reg [NBITS-1 : 0] counter_reg;
+
+	always@(posedge clk or negedge reset) begin
+		if (reset == 1'b0)
+			counter_reg <= {NBITS{1'b0}};
+		else
+			if(enable == 1'b1)
+					counter_reg <= counter_reg + 1'b1;
+	end
+
+//----------------------------------------------------
+assign Counter = counter_reg;
+assign flag = (counter_reg==VALUE)?1'b1:1'b0;
+//----------------------------------------------------
+
+endmodule
